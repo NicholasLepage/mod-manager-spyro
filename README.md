@@ -1,1 +1,1 @@
-# mod-manager-spyro
+### Mod Manager for Spyro: Reignited Trilogy
