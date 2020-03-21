@@ -1,1 +1,1 @@
-### Mod Manager for Spyro: Reignited Trilogy
+# Mod Manager for Spyro: Reignited Trilogy
