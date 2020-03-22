@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import filedialog
 
@@ -5,7 +6,9 @@ class App:
 
     def __init__(self, master):
         frame = tk.Frame(master)
+        frame.winfo_toplevel().title("Spyro: Reignited Trilogy Mod Manager")
         frame.pack()
+
 
         self.printButton = tk.Button(frame, text="Print Message", command=self.printMessage)
         self.printButton.pack(side=tk.LEFT)
@@ -21,11 +24,15 @@ def doNothing():
     print("I do nothing")
 
 def openFile():
-    file_path = filedialog.askopenfilename()
-    print(file_path)
+    file = os.path.basename(filedialog.askopenfilename())
+    listbox.insert(tk.END, file)
+
+
 
 root = tk.Tk()
-root.geometry("500x300")
+img = tk.PhotoImage(file='/home/nicholas/Desktop/Code/mod-manager-spyro/assets/spyro.png')
+root.tk.call('wm', 'iconphoto', root._w, img)
+root.geometry("1280x720")
 
 # Top Menu
 
@@ -43,7 +50,14 @@ editmenu = tk.Menu(menu)
 menu.add_cascade(label="Edit", menu=editmenu)
 editmenu.add_command(label="Undo", command=doNothing)
 
-# Toolbar
+# Listbox
+
+listbox = tk.Listbox(root, width="40", height="30")
+listbox.pack(side=tk.LEFT)
+import_button = tk.Button(root, text="Add Mod(s)", command=openFile)
+import_button.pack()
+delete_button = tk.Button(root, text="Delete", command=lambda lb=listbox: lb.delete(tk.ANCHOR))
+delete_button.pack()
 
 
 
