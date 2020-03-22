@@ -2,13 +2,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-saved_items = []
-if os.path.isfile('save.txt'):
-    with open('save.txt', 'r') as file:
-        for line in file:
-            currentMod = line[:-1]
-            saved_items.append(currentMod)
-
 
 class App:
 
@@ -32,22 +25,38 @@ class App:
         self.quitButton = tk.Button(frame, text="Quit", command=frame.quit)
         self.quitButton.pack(side=tk.LEFT)
 
-        for item in saved_items:
+        self.saved_items = []
+
+    def load(self):
+        if os.path.isfile('save.txt'):
+            with open('save.txt', 'r') as file:
+                for line in file:
+                    currentMod = line[:-1]
+                    self.saved_items.append(currentMod)
+
+        for item in self.saved_items:
             file = os.path.basename(item)
             self.listbox.insert(tk.END, file)
 
+    def save(self):
+        with open('save.txt','w') as f:
+            f.seek(0)
+            f.truncate(0)
+            for item in self.saved_items:
+                f.write(str('%s\n' % item))
+
     def printMessage(self):
-        print(saved_items)
+        print(self.saved_items)
 
     def openFile(self):
         file_path = filedialog.askopenfilename()
         file = os.path.basename(file_path)
-        saved_items.append(str(file_path))
+        self.saved_items.append(str(file_path))
         self.listbox.insert(tk.END, file)
 
     def deleteFile(self):
         self.listbox.delete(tk.ANCHOR)
-        saved_items.delete(tk.ANCHOR)
+        self.saved_items.delete(tk.ANCHOR)
         print(self.saved_items)
 
 root = tk.Tk()
@@ -72,10 +81,6 @@ root.geometry("1280x720")
 # editmenu.add_command(label="Undo", command=doNothing)
 
 app = App(root)
+app.load()
 root.mainloop()
-
-with open('save.txt','w') as f:
-    f.seek(0)
-    f.truncate(0)
-    for item in saved_items:
-        f.write(str('%s\n' % item))
+app.save()
