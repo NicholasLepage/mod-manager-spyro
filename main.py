@@ -66,13 +66,15 @@ class App:
         self.spyro_install_path = filedialog.askopenfilename(
             title="Select Spyro.exe", filetypes=[("Spyro.exe", "*.exe")])
 
-        self.cur.execute(f"INSERT INTO spyro_location VALUES('{self.spyro_install_path}')")
+        self.cur.execute(
+            f"INSERT INTO spyro_location VALUES('{self.spyro_install_path}')")
 
     def open_file(self):
         file_path = filedialog.askopenfilename()
         file = os.path.basename(file_path)
 
-        self.cur.execute(f"INSERT INTO mods_location VALUES('{file_path}', {1})")
+        self.cur.execute(
+            f"INSERT INTO mods_location VALUES('{file_path}', {1})")
         self.conn.commit()
 
         self.listbox.insert(tk.END, file)
